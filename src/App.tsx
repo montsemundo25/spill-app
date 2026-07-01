@@ -175,7 +175,7 @@ export default function App() {
         </header>
 
         {/* Love mode background doodles */}
-        {activeCategory === 'love' && <LoveDoodles />}
+        {/* {activeCategory === 'love' && <LoveDoodles />} */}
 
         {/* CORE DECK STACK */}
         <main className="flex-grow flex flex-col justify-center items-center relative">
