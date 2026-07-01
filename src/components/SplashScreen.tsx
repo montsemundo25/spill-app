@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Sparkles, HelpCircle } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface SplashScreenProps {
@@ -46,7 +46,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
       {/* Header */}
       <header className="w-full flex justify-between items-center z-10 pt-4 max-w-5xl mx-auto">
         <div className="flex items-center gap-2 text-xs font-display tracking-[0.2em] uppercase font-bold text-[#E8BFE9]">
-          <Sparkles className="w-4 h-4 text-[#D2E823] animate-pulse" />
           <span>SPILL</span>
         </div>
         <div className="text-[10px] sm:text-xs font-display text-white/40 tracking-wider">v1.2</div>
@@ -82,21 +81,26 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
         </div>
 
         {/* Wordmark */}
-        <motion.h1
-          className="font-display text-4xl xs:text-5xl sm:text-6xl font-bold tracking-tight mt-8 sm:mt-10 bg-gradient-to-r from-white via-[#E8BFE9] to-white bg-clip-text text-transparent"
-          initial={{ opacity: 0, scale: 0.88 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.52, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-        >
-          SPILL
-        </motion.h1>
+        <h1 className="font-display text-4xl xs:text-5xl sm:text-6xl font-bold tracking-tight mt-8 sm:mt-10 overflow-hidden flex">
+          {'SPILL'.split('').map((letter, i) => (
+            <motion.span
+              key={i}
+              className="bg-gradient-to-r from-white via-[#E8BFE9] to-white bg-clip-text text-transparent inline-block"
+              initial={{ y: 48, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 14, delay: i * 0.07 }}
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </h1>
 
         {/* Subtitle */}
         <motion.p
           className="font-display text-xs sm:text-sm text-white/55 mt-2 sm:mt-3 text-center max-w-xs leading-relaxed"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.78, duration: 0.45 }}
+          transition={{ delay: 0.48, duration: 0.45 }}
         >
           Break the ice with friends, your team, or dates.
         </motion.p>
@@ -107,19 +111,18 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
         <motion.button
           onClick={handleStart}
           className="w-full max-w-[320px] bg-[#D2E823] text-[#131414] font-display text-xs sm:text-sm font-bold py-4 rounded-full card-shadow flex items-center justify-center gap-2 hover:scale-[1.03] active:scale-[0.97] transition-transform duration-200 cursor-pointer"
-          initial={{ opacity: 0, scale: 0.88, y: 12 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
         >
           <span>START PLAYING</span>
-          <Sparkles className="w-4 h-4 text-[#5B072D]" />
         </motion.button>
 
         <motion.span
           className="font-display text-[10px] tracking-wider text-white/30 uppercase"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.4 }}
+          transition={{ delay: 0.9, duration: 0.4 }}
         >
           Press any key or click to skip
         </motion.span>
