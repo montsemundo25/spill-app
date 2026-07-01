@@ -76,6 +76,12 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
               yChannelSelector="G"
             />
           </filter>
+          <filter id="sticker-border" x="-8%" y="-8%" width="116%" height="116%">
+            <feMorphology operator="dilate" radius="10" in="SourceAlpha" result="expanded"/>
+            <feFlood floodColor="#131414" result="border-color"/>
+            <feComposite in="border-color" in2="expanded" operator="in" result="border"/>
+            <feComposite in="SourceGraphic" in2="border" operator="over"/>
+          </filter>
         </defs>
       </svg>
 
@@ -91,10 +97,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
       </header>
 
       {/* Logo + wordmark */}
-      <main className="flex-grow flex flex-col justify-center items-center relative max-w-lg mx-auto w-full z-10">
+      <main className="flex-grow flex flex-col justify-center items-center gap-[32px] relative max-w-lg mx-auto w-full z-10">
 
         <motion.div
-          className="w-[160px] xs:w-[200px] sm:w-[240px] relative"
+          className="w-[160px] xs:w-[200px] sm:w-[240px] relative z-10 mb-[-40px]"
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{
@@ -112,35 +118,37 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
               transform: 'translate(calc(-50% - 20px), -50%)',
               width: `${(1040 / 1021) * 100}%`,
               height: 'auto',
+              filter: 'url(#sticker-border)',
             }}
           />
           <img src={spillLogo} alt="Spill" className="relative w-full h-auto block" style={{ filter: 'url(#splash-boil)', transform: 'translateX(-28px)' }} />
         </motion.div>
 
-        {/* Wordmark */}
-        <h1 className="font-display text-4xl xs:text-5xl sm:text-6xl font-bold tracking-tight mt-8 sm:mt-10 overflow-hidden flex">
-          {'SPILL'.split('').map((letter, i) => (
-            <motion.span
-              key={i}
-              className="text-white inline-block"
-              initial={{ y: 48, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 14, delay: i * 0.07 }}
-            >
-              {letter}
-            </motion.span>
-          ))}
-        </h1>
+        {/* Wordmark + Subtitle */}
+        <div className="flex flex-col items-center gap-[8px]">
+          <h1 className="font-display font-bold tracking-tight leading-none overflow-hidden flex" style={{ fontSize: '120px' }}>
+            {'SPILL'.split('').map((letter, i) => (
+              <motion.span
+                key={i}
+                className="text-white inline-block"
+                initial={{ y: 48, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 14, delay: i * 0.07 }}
+              >
+                {letter}
+              </motion.span>
+            ))}
+          </h1>
 
-        {/* Subtitle */}
-        <motion.p
-          className="font-display text-xs sm:text-sm text-white/55 mt-2 sm:mt-3 text-center max-w-xs leading-relaxed"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.48, duration: 0.45 }}
-        >
-          Break the ice with friends, your team, or dates.
-        </motion.p>
+          <motion.p
+            className="font-display text-xs sm:text-sm text-white/55 text-center max-w-xs leading-relaxed"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.48, duration: 0.45 }}
+          >
+            Break the ice with friends, your team, or dates.
+          </motion.p>
+        </div>
       </main>
 
       {/* CTA */}
