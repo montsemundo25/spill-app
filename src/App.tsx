@@ -4,6 +4,7 @@ import { PRESET_QUESTIONS } from './data/questions';
 import { Category, Theme, Question } from './types';
 import { RefreshCw } from 'lucide-react';
 import { SplashScreen } from './components/SplashScreen';
+import { LoveDoodles } from './components/LoveDoodles';
 import { AnimatePresence, motion } from 'motion/react';
 
 const THEMES: Record<Category, Theme> = {
@@ -35,12 +36,7 @@ export default function App() {
     );
     const pool = allowedCombinations.length > 0 ? allowedCombinations : CARD_COMBINATIONS;
 
-    const sourceQuestions =
-      category === 'love'
-        ? Object.entries(PRESET_QUESTIONS).flatMap(([cat, questions]) =>
-            questions.map((q) => ({ ...q, category: cat as Category }))
-          )
-        : PRESET_QUESTIONS[category].map((q) => ({ ...q, category }));
+    const sourceQuestions = PRESET_QUESTIONS[category].map((q) => ({ ...q, category }));
 
     const shuffled = [...sourceQuestions].sort(() => Math.random() - 0.5);
 
@@ -177,6 +173,9 @@ export default function App() {
             })}
           </nav>
         </header>
+
+        {/* Love mode background doodles */}
+        {activeCategory === 'love' && <LoveDoodles />}
 
         {/* CORE DECK STACK */}
         <main className="flex-grow flex flex-col justify-center items-center relative">

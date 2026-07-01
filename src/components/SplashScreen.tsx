@@ -1,25 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
-import { HelpCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import spillLogo from '../assets/spill-logo.svg';
 
 interface SplashScreenProps {
   onDismiss: () => void;
 }
 
-const CARDS = [
-  { bg: '#5B072D', text: '#E8BFE9', label: 'ME',      question: "What pattern keeps repeating in your life?", rotate: -9,  x: -75, y: -8,  scale: 0.91 },
-  { bg: '#2665D6', text: '#D2E823', label: 'WORK',    question: "What's your best work fun fact?",             rotate: -3,  x: -22, y: -3,  scale: 0.95 },
-  { bg: '#D2E823', text: '#2665D6', label: 'FRIENDS', question: "What's the wildest dare you've taken?",       rotate:  3,  x:  22, y: -3,  scale: 0.98 },
-  { bg: '#E8BFE9', text: '#5B072D', label: 'LOVE',    question: "What's your favorite memory together?",       rotate:  9,  x:  75, y: -8,  scale: 1.0  },
-];
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
+  const turbulenceRef = useRef<SVGFETurbulenceElement>(null);
+
   useEffect(() => {
     const handleKey = () => onDismiss();
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [onDismiss]);
+
+  // Hand-drawn boil: cycle through baseFrequency values at ~12fps
+  // feTurbulence generates Perlin noise; feDisplacementMap warps pixels using that noise
+  useEffect(() => {
+    const freqs = [0.010, 0.020, 0.015, 0.030, 0.012, 0.025, 0.018, 0.022, 0.010, 0.028];
+    let i = 0;
+    let intervalId: ReturnType<typeof setInterval>;
+
+    const timeoutId = setTimeout(() => {
+      intervalId = setInterval(() => {
+        turbulenceRef.current?.setAttribute('baseFrequency', String(freqs[i % freqs.length]));
+        i++;
+      }, 150);
+    }, 500);
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const handleStart = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -40,6 +56,28 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
       className="fixed inset-0 z-[100] flex flex-col justify-between bg-[#131414] text-white overflow-hidden p-6 select-none cursor-pointer"
       onClick={onDismiss}
     >
+      {/* SVG filter definition — invisible, only used as CSS filter reference */}
+      <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} aria-hidden>
+        <defs>
+          <filter id="splash-boil" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence
+              ref={turbulenceRef}
+              type="fractalNoise"
+              baseFrequency="0.02"
+              numOctaves="4"
+              result="noise"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="noise"
+              scale="5"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
+
       {/* Subtle grid texture */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:30px_30px] [mask-image:radial-gradient(ellipse_at_center,black_70%,transparent_100%)] pointer-events-none" />
 
@@ -51,34 +89,21 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
         <div className="text-[10px] sm:text-xs font-display text-white/40 tracking-wider">v1.2</div>
       </header>
 
-      {/* Card fan + wordmark */}
-      <main className="flex-grow flex flex-col justify-center items-center relative max-w-lg mx-auto w-full">
+      {/* Logo + wordmark */}
+      <main className="flex-grow flex flex-col justify-center items-center relative max-w-lg mx-auto w-full z-10">
 
-        {/* Fanned card stack */}
-        <div className="relative w-full h-[200px] xs:h-[240px] sm:h-[280px] flex justify-center items-center">
-          {CARDS.map((card, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-[150px] xs:w-[180px] sm:w-[215px] h-[100px] xs:h-[120px] sm:h-[150px] rounded-2xl sm:rounded-3xl card-shadow flex flex-col justify-between p-3.5 sm:p-4"
-              style={{ backgroundColor: card.bg, color: card.text, zIndex: i + 10 }}
-              initial={{ opacity: 0, y: 130, scale: 0.65, rotate: 0, x: 0 }}
-              animate={{ opacity: 1, y: card.y, scale: card.scale, rotate: card.rotate, x: card.x }}
-              whileHover={{ y: card.y - 18, scale: card.scale + 0.04, transition: { type: 'spring', stiffness: 320, damping: 10 } }}
-              transition={{ type: 'spring', stiffness: 130, damping: 15, delay: i * 0.07 }}
-            >
-              <div className="flex justify-between items-center" style={{ opacity: 0.55 }}>
-                <span className="font-display text-[8px] sm:text-[10px] font-bold tracking-[0.15em]">
-                  {card.label}
-                </span>
-                <HelpCircle className="w-3 h-3 sm:w-3.5 sm:h-3.5" style={{ opacity: 0.5 }} />
-              </div>
-              <p className="font-display text-[10px] xs:text-[11px] sm:text-xs font-bold leading-snug">
-                {card.question}
-              </p>
-              <div className="w-5 h-0.5 rounded" style={{ backgroundColor: 'currentColor', opacity: 0.25 }} />
-            </motion.div>
-          ))}
-        </div>
+        <motion.img
+          src={spillLogo}
+          alt="Spill"
+          className="w-[160px] xs:w-[200px] sm:w-[240px] h-auto"
+          style={{ filter: 'url(#splash-boil)' }}
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            opacity: { duration: 0.4, delay: 0.1 },
+            scale: { type: 'spring', stiffness: 180, damping: 14, delay: 0.1 },
+          }}
+        />
 
         {/* Wordmark */}
         <h1 className="font-display text-4xl xs:text-5xl sm:text-6xl font-bold tracking-tight mt-8 sm:mt-10 overflow-hidden flex">
