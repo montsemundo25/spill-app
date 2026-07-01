@@ -71,7 +71,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
             <feDisplacementMap
               in="SourceGraphic"
               in2="noise"
-              scale="5"
+              scale="4"
               xChannelSelector="R"
               yChannelSelector="G"
             />
