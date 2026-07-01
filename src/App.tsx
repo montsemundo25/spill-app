@@ -174,9 +174,9 @@ export default function App() {
         {showSplash && (
           <motion.div
             key="splash"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
-            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            initial={{ y: 0 }}
+            exit={{ y: '-100%' }}
+            transition={{ duration: 0.7, ease: [0.4, 0, 0.15, 1] }}
             className="fixed inset-0 z-[100]"
           >
             <SplashScreen onDismiss={() => setShowSplash(false)} />
