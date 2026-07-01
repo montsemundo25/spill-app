@@ -7,10 +7,10 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Theme Color Definitions */
-  --color-royal-work: #2665D6;
-  --color-lime-fun: #D2E823;
-  --color-oxblood-deep: #780016;
-  --color-lilac-all: #E8BFE9;
+  --color-work: #2665D6;
+  --color-me: #5B072D;
+  --color-friends: #D2E823;
+  --color-love: #E8BFE9;
   --color-on-background: #131414;
   --color-primary: #131414;
   --color-on-primary: #ffffff;

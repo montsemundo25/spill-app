@@ -1,53 +1,47 @@
-export const PRESET_QUESTIONS = {
-  'royal-work': [
-    "¿Cuál es el mejor consejo profesional que has recibido?",
-    "¿Qué habilidad nueva te gustaría aprender este año?",
-    "¿Cómo defines un 'buen día' en el trabajo?",
-    "¿Cuál fue tu primer trabajo y qué aprendiste de él?",
-    "¿Qué es lo que más te motiva de tu rol actual?",
-    "Si pudieras cambiar de carrera por un día sin consecuencias, ¿qué harías?",
-    "¿Qué herramienta o app de trabajo ha cambiado por completo tu productividad?",
-    "¿Cuál ha sido el mayor logro de tu equipo este mes?",
-    "¿Prefieres trabajar por la mañana muy temprano o tarde por la noche?",
-    "¿Cuál es el mito más común sobre tu profesión que te gustaría desmentir?",
-    "¿Qué tipo de proyectos o tareas te quitan toda la energía?",
-    "¿Cuál es tu método infalible para manejar el estrés laboral?",
-    "Si tuvieras un presupuesto ilimitado para mejorar tu espacio de trabajo, ¿qué comprarías?",
-    "¿Qué superpoder profesional te gustaría tener?",
-    "¿Cuál es la lección más valiosa que te ha enseñado un error en el trabajo?"
+export interface PresetQuestion {
+  text: string;
+  subtheme: string;
+}
+
+export const PRESET_QUESTIONS: Record<string, PresetQuestion[]> = {
+  work: [
+    { subtheme: 'FUN FACT',         text: "What's a fun fact about yourself that surprises people at work?" },
+    { subtheme: 'FUN FACT',         text: "What's something you're weirdly good at that has nothing to do with your job?" },
+    { subtheme: 'FIRSTS',           text: "What was your very first job, and what did it teach you?" },
+    { subtheme: 'FIRSTS',           text: "What's the first thing you do every morning before opening your laptop?" },
+    { subtheme: 'SMALL OBSESSIONS', text: "What's one tool, app, or gadget you couldn't work without?" },
+    { subtheme: 'SMALL OBSESSIONS', text: "What's a work habit or ritual you're low-key obsessed with?" },
+    { subtheme: 'USELESS SKILLS',   text: "What's a skill you have that serves absolutely no professional purpose?" },
+    { subtheme: 'USELESS SKILLS',   text: "What's the most niche thing you know how to do that nobody asked for?" },
   ],
-  'lime-fun': [
-    "Si pudieras ser un personaje de caricatura por un día, ¿quién serías?",
-    "¿Cuál es el viaje más loco que has hecho?",
-    "¿Qué comida podrías comer todos los días sin cansarte?",
-    "¿Cuál es tu placer culposo en cuanto a música?",
-    "Si ganaras la lotería mañana, ¿qué sería lo primero que comprarías?",
-    "Si tuvieras que sobrevivir en un apocalipsis zombie con los últimos 3 contactos de tu teléfono, ¿qué tan bien te iría?",
-    "¿Cuál es el peor corte de cabello o estilo de ropa que has tenido?",
-    "Si pudieras hablar fluidamente cualquier idioma (incluyendo el de los animales), ¿cuál elegirías?",
-    "¿Cuál es la mentira más tonta o divertida que dijiste cuando eras niño?",
-    "Si pudieras cenar con cualquier celebridad, viva o muerta, ¿quién sería?",
-    "¿Cuál es la habilidad más inútil pero divertida que tienes?",
-    "¿Qué programa o serie de televisión te da vergüenza admitir que te encanta?",
-    "Si fueras un ingrediente de pizza, ¿cuál serías y por qué?",
-    "¿Cuál es la combinación de comida más extraña que realmente te gusta?",
-    "Si tu vida fuera una película, ¿cuál sería el título de la banda sonora?"
+  me: [
+    { subtheme: 'SHADOW',    text: "What's a pattern in your life you keep repeating even though you know better?" },
+    { subtheme: 'SHADOW',    text: "What's something about yourself you've been avoiding looking at lately?" },
+    { subtheme: 'ROOTS',     text: "What's one thing from your childhood that still shapes how you move through the world?" },
+    { subtheme: 'ROOTS',     text: "What belief did you grow up with that you've since completely changed your mind on?" },
+    { subtheme: 'PRESENT',   text: "How are you actually doing right now — not the version you tell people?" },
+    { subtheme: 'PRESENT',   text: "What's taking up the most mental space in your head this week?" },
+    { subtheme: 'FUTURE',    text: "What's one thing you want to let go of before the end of the year?" },
+    { subtheme: 'FUTURE',    text: "If your life had a theme song for where you're headed, what would it be?" },
   ],
-  'oxblood-deep': [
-    "¿Qué es algo en lo que has cambiado de parecer recientemente?",
-    "¿Cuál es el mayor desafío que has superado en tu vida?",
-    "¿Qué legado te gustaría dejar en el mundo?",
-    "¿Qué significa para ti el éxito realmente?",
-    "¿A quién admiras más y por qué?",
-    "¿Cuál es un miedo irracional que sigues teniendo de adulto?",
-    "¿Qué consejo le darías a tu yo de hace 10 años?",
-    "¿Qué crees que la mayoría de la gente malinterpreta de ti?",
-    "Si supieras que te queda un año de vida, ¿qué cambiarías en tu rutina diaria?",
-    "¿Qué es lo que más valoras en una amistad verdadera?",
-    "¿Cuál ha sido la decisión más difícil que has tomado y que resultó ser la mejor?",
-    "¿De qué logro en tu vida te sientes más orgulloso(a), aunque a nadie más le parezca importante?",
-    "¿Qué parte de tu personalidad te ha costado más aceptar?",
-    "Si pudieras hacerle una sola pregunta sobre el futuro a una bola de cristal, ¿qué preguntarías?",
-    "¿Qué momento del pasado te gustaría revivir y experimentar una vez más?"
-  ]
+  friends: [
+    { subtheme: 'TRUTH',        text: "What's something you've never told anyone but could say right now?" },
+    { subtheme: 'TRUTH',        text: "What's a lie you told that somehow made your life better?" },
+    { subtheme: 'DARE',         text: "Text the last person you thought about today — right now, no explanation." },
+    { subtheme: 'DARE',         text: "Say one genuine compliment out loud to the person on your left." },
+    { subtheme: 'STORIES',      text: "Tell me about the time you almost got caught doing something you shouldn't have." },
+    { subtheme: 'STORIES',      text: "What's the most chaotic thing that's happened to you in the last 12 months?" },
+    { subtheme: 'HYPOTHETICALS', text: "If you had to survive a zombie apocalypse with the last 3 people you texted, how screwed are you?" },
+    { subtheme: 'HYPOTHETICALS', text: "You can only eat one cuisine for the rest of your life — which one, and why?" },
+  ],
+  love: [
+    { subtheme: 'MEMORY LANE',  text: "What's the first moment you knew something was different about this person?" },
+    { subtheme: 'MEMORY LANE',  text: "What's a small, random memory of us that you secretly love?" },
+    { subtheme: 'FUTURE',       text: "What's something you want us to do together that we haven't done yet?" },
+    { subtheme: 'FUTURE',       text: "Where do you see us in five years — and does that excite or scare you?" },
+    { subtheme: 'APPRECIATION', text: "What's something I do that you never take for granted?" },
+    { subtheme: 'APPRECIATION', text: "What's a quality in me that you wish I gave myself more credit for?" },
+    { subtheme: 'CURIOSITIES',  text: "What's something you've always wanted to ask me but never have?" },
+    { subtheme: 'CURIOSITIES',  text: "Is there something about me you feel like you still don't fully understand?" },
+  ],
 };

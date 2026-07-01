@@ -182,7 +182,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({
                 }`}
                 style={{ color: card.theme.label }}
               >
-                {card.category === 'royal-work' ? 'Work' : card.category === 'lime-fun' ? 'Fun' : 'Deep'}
+                {card.subtheme}
               </span>
 
               {isFront ? (

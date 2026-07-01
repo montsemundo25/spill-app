@@ -1,4 +1,4 @@
-export type Category = 'royal-work' | 'lime-fun' | 'oxblood-deep' | 'lilac-all';
+export type Category = 'work' | 'me' | 'friends' | 'love';
 
 export interface Theme {
   bg: string;
@@ -9,6 +9,7 @@ export interface Theme {
 export interface Question {
   id: string;
   text: string;
-  category: 'royal-work' | 'lime-fun' | 'oxblood-deep';
+  category: Category;
+  subtheme: string;
   theme: Theme;
 }
