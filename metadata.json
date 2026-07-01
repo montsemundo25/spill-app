@@ -1,0 +1,6 @@
+{
+  "name": "Spill",
+  "description": "Una hermosa aplicación para romper el hielo en el trabajo, con amigos o en citas, con una interfaz táctil y colorida.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

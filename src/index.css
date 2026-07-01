@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Theme Color Definitions */
+  --color-royal-work: #2665D6;
+  --color-lime-fun: #D2E823;
+  --color-oxblood-deep: #780016;
+  --color-lilac-all: #E8BFE9;
+  --color-on-background: #131414;
+  --color-primary: #131414;
+  --color-on-primary: #ffffff;
+}
+
+/* Base resets and defaults */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+}
+
+body {
+  transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* Material Symbols or custom styles if needed */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Visual Helpers */
+.card-shadow {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+}
+
+.card-rounded {
+  border-radius: 2.5rem;
+}
+
+/* Hide scrollbars for layout fluidity */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

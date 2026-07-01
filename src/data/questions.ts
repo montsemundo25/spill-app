@@ -1,0 +1,53 @@
+export const PRESET_QUESTIONS = {
+  'royal-work': [
+    "¿Cuál es el mejor consejo profesional que has recibido?",
+    "¿Qué habilidad nueva te gustaría aprender este año?",
+    "¿Cómo defines un 'buen día' en el trabajo?",
+    "¿Cuál fue tu primer trabajo y qué aprendiste de él?",
+    "¿Qué es lo que más te motiva de tu rol actual?",
+    "Si pudieras cambiar de carrera por un día sin consecuencias, ¿qué harías?",
+    "¿Qué herramienta o app de trabajo ha cambiado por completo tu productividad?",
+    "¿Cuál ha sido el mayor logro de tu equipo este mes?",
+    "¿Prefieres trabajar por la mañana muy temprano o tarde por la noche?",
+    "¿Cuál es el mito más común sobre tu profesión que te gustaría desmentir?",
+    "¿Qué tipo de proyectos o tareas te quitan toda la energía?",
+    "¿Cuál es tu método infalible para manejar el estrés laboral?",
+    "Si tuvieras un presupuesto ilimitado para mejorar tu espacio de trabajo, ¿qué comprarías?",
+    "¿Qué superpoder profesional te gustaría tener?",
+    "¿Cuál es la lección más valiosa que te ha enseñado un error en el trabajo?"
+  ],
+  'lime-fun': [
+    "Si pudieras ser un personaje de caricatura por un día, ¿quién serías?",
+    "¿Cuál es el viaje más loco que has hecho?",
+    "¿Qué comida podrías comer todos los días sin cansarte?",
+    "¿Cuál es tu placer culposo en cuanto a música?",
+    "Si ganaras la lotería mañana, ¿qué sería lo primero que comprarías?",
+    "Si tuvieras que sobrevivir en un apocalipsis zombie con los últimos 3 contactos de tu teléfono, ¿qué tan bien te iría?",
+    "¿Cuál es el peor corte de cabello o estilo de ropa que has tenido?",
+    "Si pudieras hablar fluidamente cualquier idioma (incluyendo el de los animales), ¿cuál elegirías?",
+    "¿Cuál es la mentira más tonta o divertida que dijiste cuando eras niño?",
+    "Si pudieras cenar con cualquier celebridad, viva o muerta, ¿quién sería?",
+    "¿Cuál es la habilidad más inútil pero divertida que tienes?",
+    "¿Qué programa o serie de televisión te da vergüenza admitir que te encanta?",
+    "Si fueras un ingrediente de pizza, ¿cuál serías y por qué?",
+    "¿Cuál es la combinación de comida más extraña que realmente te gusta?",
+    "Si tu vida fuera una película, ¿cuál sería el título de la banda sonora?"
+  ],
+  'oxblood-deep': [
+    "¿Qué es algo en lo que has cambiado de parecer recientemente?",
+    "¿Cuál es el mayor desafío que has superado en tu vida?",
+    "¿Qué legado te gustaría dejar en el mundo?",
+    "¿Qué significa para ti el éxito realmente?",
+    "¿A quién admiras más y por qué?",
+    "¿Cuál es un miedo irracional que sigues teniendo de adulto?",
+    "¿Qué consejo le darías a tu yo de hace 10 años?",
+    "¿Qué crees que la mayoría de la gente malinterpreta de ti?",
+    "Si supieras que te queda un año de vida, ¿qué cambiarías en tu rutina diaria?",
+    "¿Qué es lo que más valoras en una amistad verdadera?",
+    "¿Cuál ha sido la decisión más difícil que has tomado y que resultó ser la mejor?",
+    "¿De qué logro en tu vida te sientes más orgulloso(a), aunque a nadie más le parezca importante?",
+    "¿Qué parte de tu personalidad te ha costado más aceptar?",
+    "Si pudieras hacerle una sola pregunta sobre el futuro a una bola de cristal, ¿qué preguntarías?",
+    "¿Qué momento del pasado te gustaría revivir y experimentar una vez más?"
+  ]
+};
