@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import confetti from 'canvas-confetti';
 import spillLogo from '../assets/spill-logo.svg';
+import spillSticker from '../assets/sticker.svg';
 
 interface SplashScreenProps {
   onDismiss: () => void;
@@ -20,7 +21,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
   // Hand-drawn boil: cycle through baseFrequency values at ~12fps
   // feTurbulence generates Perlin noise; feDisplacementMap warps pixels using that noise
   useEffect(() => {
-    const freqs = [0.010, 0.020, 0.015, 0.030, 0.012, 0.025, 0.018, 0.022, 0.010, 0.028];
+    const freqs = [0.005, 0.010, 0.007, 0.015, 0.006, 0.012, 0.009, 0.011, 0.005, 0.014];
     let i = 0;
     let intervalId: ReturnType<typeof setInterval>;
 
@@ -56,14 +57,14 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
       className="fixed inset-0 z-[100] flex flex-col justify-between bg-[#131414] text-white overflow-hidden p-6 select-none cursor-pointer"
       onClick={onDismiss}
     >
-      {/* SVG filter definition — invisible, only used as CSS filter reference */}
+      {/* SVG filter — boil jitter */}
       <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} aria-hidden>
         <defs>
           <filter id="splash-boil" x="-20%" y="-20%" width="140%" height="140%">
             <feTurbulence
               ref={turbulenceRef}
               type="fractalNoise"
-              baseFrequency="0.02"
+              baseFrequency="0.005"
               numOctaves="4"
               result="noise"
             />
@@ -92,25 +93,36 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
       {/* Logo + wordmark */}
       <main className="flex-grow flex flex-col justify-center items-center relative max-w-lg mx-auto w-full z-10">
 
-        <motion.img
-          src={spillLogo}
-          alt="Spill"
-          className="w-[160px] xs:w-[200px] sm:w-[240px] h-auto"
-          style={{ filter: 'url(#splash-boil)' }}
+        <motion.div
+          className="w-[160px] xs:w-[200px] sm:w-[240px] relative"
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{
             opacity: { duration: 0.4, delay: 0.1 },
             scale: { type: 'spring', stiffness: 180, damping: 14, delay: 0.1 },
           }}
-        />
+        >
+          <img
+            src={spillSticker}
+            aria-hidden
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(calc(-50% - 20px), -50%)',
+              width: `${(1040 / 1021) * 100}%`,
+              height: 'auto',
+            }}
+          />
+          <img src={spillLogo} alt="Spill" className="relative w-full h-auto block" style={{ filter: 'url(#splash-boil)', transform: 'translateX(-28px)' }} />
+        </motion.div>
 
         {/* Wordmark */}
         <h1 className="font-display text-4xl xs:text-5xl sm:text-6xl font-bold tracking-tight mt-8 sm:mt-10 overflow-hidden flex">
           {'SPILL'.split('').map((letter, i) => (
             <motion.span
               key={i}
-              className="bg-gradient-to-r from-white via-[#E8BFE9] to-white bg-clip-text text-transparent inline-block"
+              className="text-white inline-block"
               initial={{ y: 48, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ type: 'spring', stiffness: 260, damping: 14, delay: i * 0.07 }}

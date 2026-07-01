@@ -24,11 +24,13 @@ const DOODLES = [
   { src: brillos, w: W.brillos, top: '-1%',  left: '91%',  rotate: 20  },
 
   { src: beso,    w: W.beso,    top: '10%',  left: '7%',   rotate: 18  },
+  { src: corazon, w: W.corazon, top: '13%',  left: '17%',  rotate: -22 },
   { src: paleta,  w: W.paleta,  top: '8%',   left: '34%',  rotate: -35 },
   { src: wine,    w: W.wine,    top: '12%',  left: '61%',  rotate: 25  },
   { src: globos,  w: W.globos,  top: '9%',   left: '82%',  rotate: -8  },
 
   { src: carta,   w: W.carta,   top: '20%',  left: '-1%',  rotate: -18 },
+  { src: wine,    w: W.wine,    top: '22%',  left: '15%',  rotate: 15  },
   { src: corazon, w: W.corazon, top: '18%',  left: '26%',  rotate: 28  },
   { src: ramo,    w: W.ramo,    top: '21%',  left: '58%',  rotate: -5  },
   { src: beso,    w: W.beso,    top: '17%',  left: '90%',  rotate: 35  },
@@ -39,6 +41,7 @@ const DOODLES = [
   { src: wine,    w: W.wine,    top: '28%',  left: '93%',  rotate: -30 },
 
   { src: brillos, w: W.brillos, top: '38%',  left: '3%',   rotate: -12 },
+  { src: beso,    w: W.beso,    top: '42%',  left: '16%',  rotate: 28  },
   { src: globos,  w: W.globos,  top: '40%',  left: '28%',  rotate: 30  },
   { src: corazon, w: W.corazon, top: '37%',  left: '54%',  rotate: -18 },
   { src: carta,   w: W.carta,   top: '39%',  left: '78%',  rotate: 10  },
@@ -49,6 +52,7 @@ const DOODLES = [
   { src: paleta,  w: W.paleta,  top: '49%',  left: '92%',  rotate: -20 },
 
   { src: cake,    w: W.cake,    top: '57%',  left: '-1%',  rotate: -8  },
+  { src: paleta,  w: W.paleta,  top: '60%',  left: '14%',  rotate: -30 },
   { src: wine,    w: W.wine,    top: '55%',  left: '24%',  rotate: 25  },
   { src: globos,  w: W.globos,  top: '59%',  left: '50%',  rotate: -32 },
   { src: brillos, w: W.brillos, top: '56%',  left: '80%',  rotate: 16  },
@@ -59,6 +63,7 @@ const DOODLES = [
   { src: beso,    w: W.beso,    top: '65%',  left: '94%',  rotate: -25 },
 
   { src: nube,    w: W.nube,    top: '75%',  left: '4%',   rotate: -20 },
+  { src: wine,    w: W.wine,    top: '78%',  left: '19%',  rotate: 18  },
   { src: paleta,  w: W.paleta,  top: '77%',  left: '35%',  rotate: 32  },
   { src: cake,    w: W.cake,    top: '74%',  left: '60%',  rotate: -6  },
   { src: wine,    w: W.wine,    top: '76%',  left: '87%',  rotate: 20  },
@@ -78,7 +83,7 @@ export const LoveDoodles: React.FC = () => {
   const turbulenceRef = useRef<SVGFETurbulenceElement>(null);
 
   useEffect(() => {
-    const freqs = [0.010, 0.020, 0.015, 0.030, 0.012, 0.025, 0.018, 0.022, 0.010, 0.028];
+    const freqs = [0.005, 0.010, 0.007, 0.015, 0.006, 0.012, 0.009, 0.011, 0.005, 0.014];
     let i = 0;
     const intervalId = setInterval(() => {
       turbulenceRef.current?.setAttribute('baseFrequency', String(freqs[i % freqs.length]));
@@ -95,7 +100,7 @@ export const LoveDoodles: React.FC = () => {
             <feTurbulence
               ref={turbulenceRef}
               type="fractalNoise"
-              baseFrequency="0.02"
+              baseFrequency="0.005"
               numOctaves="4"
               result="noise"
             />
