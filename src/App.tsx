@@ -44,15 +44,14 @@ export default function App() {
 
     const shuffled = [...sourceQuestions].sort(() => Math.random() - 0.5);
 
-    let lastTheme: Theme | null = null;
+    const recentThemes: Theme[] = [];
     return shuffled.map((item, index) => {
-      let candidates = pool;
-      if (lastTheme) {
-        candidates = pool.filter((c) => c.bg.toLowerCase() !== lastTheme!.bg.toLowerCase());
-      }
+      const usedBgs = recentThemes.map((t) => t.bg.toLowerCase());
+      let candidates = pool.filter((c) => !usedBgs.includes(c.bg.toLowerCase()));
       if (candidates.length === 0) candidates = pool;
       const chosenTheme = candidates[Math.floor(Math.random() * candidates.length)];
-      lastTheme = chosenTheme;
+      recentThemes.push(chosenTheme);
+      if (recentThemes.length > 3) recentThemes.shift();
 
       return {
         id: `${category}-${index}-${Math.random()}`,
@@ -75,15 +74,13 @@ export default function App() {
       if (prevQueue.length === 0) return prevQueue;
       const finished = prevQueue[0];
 
-      const lastTheme = prevQueue[prevQueue.length - 1]?.theme ?? null;
       const siteBg = THEMES[activeCategory].bg.toLowerCase();
       const allowed = CARD_COMBINATIONS.filter((c) => c.bg.toLowerCase() !== siteBg);
       const pool = allowed.length > 0 ? allowed : CARD_COMBINATIONS;
 
-      let candidates = pool;
-      if (lastTheme) {
-        candidates = pool.filter((c) => c.bg.toLowerCase() !== lastTheme.bg.toLowerCase());
-      }
+      // Avoid repeating any color already visible in the last 3 queue positions
+      const recentBgs = prevQueue.slice(-3).map((q) => q.theme.bg.toLowerCase());
+      let candidates = pool.filter((c) => !recentBgs.includes(c.bg.toLowerCase()));
       if (candidates.length === 0) candidates = pool;
       const chosenTheme = candidates[Math.floor(Math.random() * candidates.length)];
 
@@ -142,7 +139,7 @@ export default function App() {
       </AnimatePresence>
 
       <div
-        className="h-[100dvh] flex flex-col justify-between overflow-hidden transition-colors duration-700 ease-in-out px-4 py-4 sm:py-8"
+        className="h-[100dvh] flex flex-col justify-between overflow-hidden transition-colors duration-700 ease-in-out px-4 pt-6 pb-4 sm:pb-8"
         style={{ backgroundColor: THEMES[activeCategory].bg }}
       >
         {/* HEADER / NAVIGATION */}
@@ -182,7 +179,7 @@ export default function App() {
         </header>
 
         {/* CORE DECK STACK */}
-        <main className="flex-grow flex flex-col justify-center items-center relative mt-2 sm:mt-4">
+        <main className="flex-grow flex flex-col justify-center items-center relative">
           <CardDeck
             key={`${activeCategory}-${showSplash}`}
             questions={queue}
@@ -190,26 +187,26 @@ export default function App() {
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}
           />
-
-          <div className="mt-4 sm:mt-8 md:mt-10 z-30">
-            <button
-              onClick={triggerNext}
-              disabled={isAnimating}
-              className="group flex items-center gap-2.5 sm:gap-3 bg-[#131414] text-white hover:opacity-90 font-display text-xs sm:text-sm md:text-base font-bold px-6 sm:px-8 md:px-10 py-3.5 sm:py-4 md:py-5 rounded-full card-shadow transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 cursor-pointer"
-            >
-              <span>Next question</span>
-              <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 transition-transform duration-500 ${isAnimating ? 'animate-spin' : 'group-hover:rotate-180'}`} />
-            </button>
-          </div>
         </main>
 
-        {/* FOOTER */}
-        <footer className={`flex flex-col items-center justify-center gap-0.5 opacity-60 transition-colors duration-500 select-none ${outsideTextColor}`}>
-          <span className="font-display text-[13px] font-bold tracking-[0.1em] uppercase">Spill</span>
-          <p className="font-display text-[11px] font-medium tracking-wide">
-            built with love · vibe coded
-          </p>
-        </footer>
+        {/* BUTTON + FOOTER — grouped so gap between them is exactly 24px */}
+        <div className="flex flex-col items-center gap-6">
+          <button
+            onClick={triggerNext}
+            disabled={isAnimating}
+            className="group flex items-center gap-2.5 sm:gap-3 bg-[#131414] text-white hover:opacity-90 font-display text-xs sm:text-sm md:text-base font-bold px-6 sm:px-8 md:px-10 py-3.5 sm:py-4 md:py-5 rounded-full card-shadow transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 cursor-pointer"
+          >
+            <span>Next question</span>
+            <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 transition-transform duration-500 ${isAnimating ? 'animate-spin' : 'group-hover:rotate-180'}`} />
+          </button>
+
+          <footer className={`flex flex-col items-center justify-center gap-0.5 opacity-60 transition-colors duration-500 select-none ${outsideTextColor}`}>
+            <span className="font-display text-[13px] font-bold tracking-[0.1em] uppercase">Spill</span>
+            <p className="font-display text-[11px] font-medium tracking-wide">
+              built with claude code · deployed with vercel
+            </p>
+          </footer>
+        </div>
       </div>
     </>
   );

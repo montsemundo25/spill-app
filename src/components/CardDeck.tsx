@@ -15,7 +15,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({
   isAnimating,
   setIsAnimating
 }) => {
-  const displayCards = questions.slice(0, 3);
+  const displayCards = questions.slice(0, 4);
   const controls = useAnimationControls();
 
   const [isMobile, setIsMobile] = React.useState(false);
@@ -120,28 +120,20 @@ export const CardDeck: React.FC<CardDeckProps> = ({
 
   const getCardStyles = (index: number) => {
     if (index === 1) {
-      return {
-        x: isMobile ? -14 : -22,
-        y: isMobile ? -12 : -24,
-        rotate: -6,
-        scale: 0.96,
-        zIndex: 10,
-      };
+      return { x: isMobile ? -14 : -22, y: isMobile ? -12 : -24, rotate: -6,  scale: 0.96, zIndex: 10 };
     }
-    return {
-      x: isMobile ? 18 : 30,
-      y: isMobile ? -22 : -44,
-      rotate: 9,
-      scale: 0.91,
-      zIndex: 5,
-    };
+    if (index === 2) {
+      return { x: isMobile ? 18 : 30,   y: isMobile ? -22 : -44, rotate: 9,   scale: 0.91, zIndex: 5  };
+    }
+    // index === 3 — furthest back
+    return   { x: isMobile ? -10 : -16, y: isMobile ? -32 : -62, rotate: -3,  scale: 0.86, zIndex: 2  };
   };
 
   const cardsWithIndex = displayCards.map((card, index) => ({ card, index }));
   const reversedCards = [...cardsWithIndex].reverse();
 
   return (
-    <div className="relative w-full max-w-[490px] h-[210px] xs:h-[245px] sm:h-[280px] md:h-[315px] flex justify-center items-center select-none">
+    <div className="relative w-full max-w-[490px] h-[210px] xs:h-[245px] sm:h-[280px] md:h-[315px] flex justify-center items-center select-none translate-y-4 sm:translate-y-8">
       {reversedCards.map(({ card, index }) => {
         const isFront = index === 0;
 
@@ -154,7 +146,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({
             style={{
               backgroundColor: card.theme.bg,
               color: card.theme.text,
-              zIndex: isFront ? 20 : (index === 1 ? 10 : 5),
+              zIndex: isFront ? 20 : (index === 1 ? 10 : (index === 2 ? 5 : 2)),
             }}
             drag={isFront ? 'x' : false}
             dragConstraints={{ left: 0, right: 0 }}
