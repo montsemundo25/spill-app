@@ -146,7 +146,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.48, duration: 0.45 }}
           >
-            Break the ice with friends, your team, or dates.
+            Spill something. At work, with friends, or just with yourself.
           </motion.p>
         </div>
       </main>
