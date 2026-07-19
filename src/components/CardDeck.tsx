@@ -8,6 +8,8 @@ interface CardDeckProps {
   onSwipe: () => void;
   isAnimating: boolean;
   setIsAnimating: (animating: boolean) => void;
+  showSwipeHint: boolean;
+  onSwipeHintDismiss: () => void;
 }
 
 function getContrastTextColor(bgHex: string): '#131414' | '#FFFFFF' {
@@ -24,17 +26,19 @@ export const CardDeck: React.FC<CardDeckProps> = ({
   onSwipe,
   isAnimating,
   setIsAnimating,
+  showSwipeHint,
+  onSwipeHintDismiss,
 }) => {
   const displayCards = questions.slice(0, 4);
   const controls = useAnimationControls();
 
   const [isMobile, setIsMobile] = React.useState(false);
-  const [showHint, setShowHint] = React.useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowHint(false), 2700);
+    if (!showSwipeHint) return;
+    const timer = setTimeout(onSwipeHintDismiss, 2700);
     return () => clearTimeout(timer);
-  }, []);
+  }, [showSwipeHint, onSwipeHintDismiss]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 640);
@@ -109,6 +113,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({
 
   const triggerProgrammaticSwipe = async () => {
     if (isAnimating) return;
+    onSwipeHintDismiss();
     setIsAnimating(true);
     await controls.start({
       x: -window.innerWidth * 0.8,
@@ -167,7 +172,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({
             }}
             drag={isFront ? 'x' : false}
             dragConstraints={{ left: 0, right: 0 }}
-            onDragStart={isFront ? () => setShowHint(false) : undefined}
+            onDragStart={isFront && showSwipeHint ? onSwipeHintDismiss : undefined}
             onDrag={isFront ? handleDrag : undefined}
             onDragEnd={isFront ? handleDragEnd : undefined}
             initial={isFront ? undefined : getCardStyles(index)}
@@ -191,7 +196,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({
           </motion.div>
         );
       })}
-      {showHint && (
+      {showSwipeHint && (
         <motion.div
           className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-1.5 pointer-events-none"
           initial={{ opacity: 0 }}

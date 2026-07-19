@@ -12,12 +12,6 @@ interface SplashScreenProps {
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
   const turbulenceRef = useRef<SVGFETurbulenceElement>(null);
 
-  useEffect(() => {
-    const handleKey = () => onDismiss();
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [onDismiss]);
-
   // Hand-drawn boil: cycle through baseFrequency values at ~12fps
   // feTurbulence generates Perlin noise; feDisplacementMap warps pixels using that noise
   useEffect(() => {
@@ -54,8 +48,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex flex-col justify-between bg-[#131414] text-white overflow-hidden p-6 select-none cursor-pointer"
-      onClick={onDismiss}
+      className="fixed inset-0 z-[100] flex flex-col justify-between bg-[#131414] text-white overflow-hidden p-6 select-none"
     >
       {/* SVG filter — boil jitter */}
       <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} aria-hidden>
@@ -162,15 +155,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onDismiss }) => {
         >
           <span>START PLAYING</span>
         </motion.button>
-
-        <motion.span
-          className="font-display text-[10px] tracking-wider text-white/30 uppercase"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9, duration: 0.4 }}
-        >
-          Press any key or click to skip
-        </motion.span>
       </footer>
     </div>
   );

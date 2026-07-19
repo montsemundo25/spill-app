@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { CardDeck } from './components/CardDeck';
 import { PRESET_QUESTIONS } from './data/questions';
 import { Category, Theme, Question } from './types';
@@ -23,11 +23,18 @@ const CARD_COMBINATIONS: Theme[] = [
   { bg: '#FFFFFF', text: '#131414', label: 'rgba(19, 20, 20, 0.6)' },
 ];
 
+const CATEGORIES: Category[] = ['work', 'me', 'friends', 'love'];
+
+const pickRandomCategory = (): Category =>
+  CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
+
 export default function App() {
-  const [activeCategory, setActiveCategory] = useState<Category>('love');
+  const [activeCategory, setActiveCategory] = useState<Category>(pickRandomCategory);
   const [queue, setQueue] = useState<Question[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+  const dismissSwipeHint = useCallback(() => setShowSwipeHint(false), []);
 
   const buildPool = (category: Category): Question[] => {
     const siteBg = THEMES[category].bg.toLowerCase();
@@ -60,8 +67,9 @@ export default function App() {
   };
 
   useEffect(() => {
+    if (showSplash) return;
     setQueue(buildPool(activeCategory));
-  }, [activeCategory]);
+  }, [activeCategory, showSplash]);
 
   const handleSwipe = () => {
     if (queue.length === 0) return;
@@ -95,8 +103,9 @@ export default function App() {
   };
 
   useEffect(() => {
+    if (showSplash) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (showSplash) { setShowSplash(false); return; }
       if (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'Enter') {
         e.preventDefault();
         triggerNext();
@@ -134,6 +143,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      {!showSplash && (
       <div
         className="h-[100dvh] flex flex-col justify-between overflow-hidden transition-colors duration-700 ease-in-out px-4 pt-6 pb-4 sm:pb-8"
         style={{ backgroundColor: THEMES[activeCategory].bg }}
@@ -180,11 +190,13 @@ export default function App() {
         {/* CORE DECK STACK */}
         <main className="flex-grow flex flex-col justify-center items-center relative">
           <CardDeck
-            key={`${activeCategory}-${showSplash}`}
+            key={activeCategory}
             questions={queue}
             onSwipe={handleSwipe}
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}
+            showSwipeHint={showSwipeHint && !showSplash}
+            onSwipeHintDismiss={dismissSwipeHint}
           />
         </main>
 
@@ -207,6 +219,7 @@ export default function App() {
           </footer>
         </div>
       </div>
+      )}
     </>
   );
 }
