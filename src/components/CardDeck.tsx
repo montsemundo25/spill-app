@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import { motion, useAnimationControls } from 'motion/react';
+import swipeIcon from '../assets/swipe-icon.svg';
 import { Question } from '../types';
 
 interface CardDeckProps {
@@ -7,18 +8,26 @@ interface CardDeckProps {
   onSwipe: () => void;
   isAnimating: boolean;
   setIsAnimating: (animating: boolean) => void;
+  hintColor?: string;
 }
 
 export const CardDeck: React.FC<CardDeckProps> = ({
   questions,
   onSwipe,
   isAnimating,
-  setIsAnimating
+  setIsAnimating,
+  hintColor = '#131414'
 }) => {
   const displayCards = questions.slice(0, 4);
   const controls = useAnimationControls();
 
   const [isMobile, setIsMobile] = React.useState(false);
+  const [showHint, setShowHint] = React.useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowHint(false), 2700);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 640);
@@ -132,8 +141,8 @@ export const CardDeck: React.FC<CardDeckProps> = ({
   const cardsWithIndex = displayCards.map((card, index) => ({ card, index }));
   const reversedCards = [...cardsWithIndex].reverse();
 
-  return (
-    <div className="relative w-full max-w-[490px] h-[210px] xs:h-[245px] sm:h-[280px] md:h-[315px] flex justify-center items-center select-none translate-y-4 sm:translate-y-8">
+  const cardStack = (
+    <div className="relative w-full max-w-[490px] aspect-[490/315] flex justify-center items-center select-none translate-y-4 sm:translate-y-8">
       {reversedCards.map(({ card, index }) => {
         const isFront = index === 0;
 
@@ -150,6 +159,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({
             }}
             drag={isFront ? 'x' : false}
             dragConstraints={{ left: 0, right: 0 }}
+            onDragStart={isFront ? () => setShowHint(false) : undefined}
             onDrag={isFront ? handleDrag : undefined}
             onDragEnd={isFront ? handleDragEnd : undefined}
             initial={isFront ? undefined : getCardStyles(index)}
@@ -173,6 +183,35 @@ export const CardDeck: React.FC<CardDeckProps> = ({
           </motion.div>
         );
       })}
+    </div>
+  );
+
+  return (
+    <div className="flex flex-col items-center w-full max-w-[490px]">
+      {cardStack}
+
+      {showHint && (
+        <motion.div
+          className="mt-4 sm:mt-6 flex flex-col items-center gap-1.5 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 2.6, times: [0, 0.15, 0.8, 1], ease: 'easeInOut' }}
+        >
+          <motion.img
+            src={swipeIcon}
+            alt=""
+            className="w-9 h-9 xs:w-10 xs:h-10"
+            animate={{ x: [0, -20, 20, 0] }}
+            transition={{ duration: 2.2, ease: 'easeInOut' }}
+          />
+          <span
+            className="font-display text-[10px] xs:text-[11px] font-bold uppercase tracking-[0.15em]"
+            style={{ color: hintColor, opacity: 0.6 }}
+          >
+            Desliza
+          </span>
+        </motion.div>
+      )}
     </div>
   );
 };
