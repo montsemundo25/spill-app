@@ -185,7 +185,6 @@ export default function App() {
             onSwipe={handleSwipe}
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}
-            hintColor={isDark ? '#F4F1EA' : '#131414'}
           />
         </main>
 

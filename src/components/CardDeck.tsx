@@ -8,7 +8,15 @@ interface CardDeckProps {
   onSwipe: () => void;
   isAnimating: boolean;
   setIsAnimating: (animating: boolean) => void;
-  hintColor?: string;
+}
+
+function getContrastTextColor(bgHex: string): '#131414' | '#FFFFFF' {
+  const hex = bgHex.replace('#', '');
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.55 ? '#131414' : '#FFFFFF';
 }
 
 export const CardDeck: React.FC<CardDeckProps> = ({
@@ -16,7 +24,6 @@ export const CardDeck: React.FC<CardDeckProps> = ({
   onSwipe,
   isAnimating,
   setIsAnimating,
-  hintColor = '#131414'
 }) => {
   const displayCards = questions.slice(0, 4);
   const controls = useAnimationControls();
@@ -140,6 +147,7 @@ export const CardDeck: React.FC<CardDeckProps> = ({
 
   const cardsWithIndex = displayCards.map((card, index) => ({ card, index }));
   const reversedCards = [...cardsWithIndex].reverse();
+  const hintTextColor = getContrastTextColor(displayCards[0].theme.bg);
 
   const cardStack = (
     <div className="relative w-full max-w-[490px] aspect-[490/315] flex justify-center items-center select-none translate-y-4 sm:translate-y-8">
@@ -183,35 +191,34 @@ export const CardDeck: React.FC<CardDeckProps> = ({
           </motion.div>
         );
       })}
+      {showHint && (
+        <motion.div
+          className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-1.5 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 2.6, times: [0, 0.15, 0.8, 1], ease: 'easeInOut' }}
+        >
+          <span
+            className="font-display text-[15px] xs:text-[17px] font-bold uppercase tracking-[0.15em]"
+            style={{ color: hintTextColor }}
+          >
+            Desliza
+          </span>
+          <motion.img
+            src={swipeIcon}
+            alt=""
+            className="w-[54px] h-[54px] xs:w-[60px] xs:h-[60px]"
+            animate={{ x: [0, -20, 20, 0] }}
+            transition={{ duration: 2.2, ease: 'easeInOut' }}
+          />
+        </motion.div>
+      )}
     </div>
   );
 
   return (
     <div className="flex flex-col items-center w-full max-w-[490px]">
       {cardStack}
-
-      {showHint && (
-        <motion.div
-          className="mt-4 sm:mt-6 flex flex-col items-center gap-1.5 pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 2.6, times: [0, 0.15, 0.8, 1], ease: 'easeInOut' }}
-        >
-          <motion.img
-            src={swipeIcon}
-            alt=""
-            className="w-9 h-9 xs:w-10 xs:h-10"
-            animate={{ x: [0, -20, 20, 0] }}
-            transition={{ duration: 2.2, ease: 'easeInOut' }}
-          />
-          <span
-            className="font-display text-[10px] xs:text-[11px] font-bold uppercase tracking-[0.15em]"
-            style={{ color: hintColor, opacity: 0.6 }}
-          >
-            Desliza
-          </span>
-        </motion.div>
-      )}
     </div>
   );
 };
